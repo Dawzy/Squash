@@ -9,7 +9,7 @@
   },
   "type": "module",
   "keywords": [],
-  "author": "",
+  "author": "David Fawzy",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.0",

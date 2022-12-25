@@ -9,6 +9,7 @@ import {
 
 const router = express.Router();
 
+// Project-specific routes
 router.get("/", getProjects);
 router.get("/:id", getProject);
 router.post("/", createProject);
