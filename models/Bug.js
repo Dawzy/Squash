@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 /*
 	Used as subdocument to ./models/Project.js
 */
-
 const BugSchema = new mongoose.Schema({
 	// Descriptors of bug
 	title: {

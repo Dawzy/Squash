@@ -1,84 +1,102 @@
 import Project from "../models/Project.js";
+import ErrorResponse from "../utils/errorResponse.js";
+import asyncHandler from "../middleware/async.js";
 
-const getProjects = async (req, res) => {
-	try {
-		const projects = await Project.find();
+/*
+	@desc	Get all projects
+	@route	/api/v1/projects
+	@access	Private
+*/
+const getProjects = asyncHandler(async (req, res, next) => {
+	const projects = await Project.find();
 
-		res.status(200).json({
-			success: true,
-			count: projects.length,
-			data: projects
-		});
+	res.status(200).json({
+		success: true,
+		count: projects.length,
+		data: projects
+	});
+});
 
-	} catch {
-		res.status(400).json({ success: false });
+/*
+	@desc	Get a project
+	@route	GET /api/v1/projects/:id
+	@access	Private
+*/
+const getProject = asyncHandler(async (req, res, next) => {
+	const project = await Project.findById(req.params.id);
+
+	// Project not found, return error
+	if (!project) {
+		// ObjectId is valid, but not in database
+		return next(
+			new ErrorResponse(`Project with id ${req.params.id} not found.`, 404)
+		);
 	}
-}
 
-const getProject = async (req, res) => {
-	try {
-		const project = await Project.findById(req.params.id);
+	res.status(200).json({
+		success: true,
+		data: project
+	});
+});
 
-		// If not returned, will continue and send next res.send() call
-		if (!project) return res.status(400).json({ success: false });
+/*
+	@desc	Create a project
+	@route	POST /api/v1/projects
+	@access	Private
+*/
+const createProject = asyncHandler(async (req, res, next) => {
+	const project = await Project.create(req.body);
 
-		res.status(200).json({
-			success: true,
-			data: project
-		});
+	res.status(201).json({
+		success: true,
+		data: project
+	});
+});
 
-	} catch {
-		res.status(400).json({ success: false });
+/*
+	@desc	Update a project
+	@route	PATCH /api/v1/projects/:id
+	@access	Private
+*/
+const updateProject = asyncHandler(async (req, res, next) => {
+	const project = await Project.findByIdAndUpdate(req.params.id, req.body, {
+		new: true,
+		runValidators: true
+	});
+
+	if (!project) {
+		return next(
+			new ErrorResponse(`Project with id ${req.params.id} not found.`, 404)
+		);
 	}
-}
 
-const createProject = async (req, res) => {
-	try {
-		const project = await Project.create(req.body);
+	res.status(200).json({
+		success: true,
+		data: project
+	});
+});
 
-		res.status(201).json({
-			success: true,
-			data: project
-		});
+/*
+	@desc	Delete a project
+	@route	DELETE /api/v1/projects/:id
+	@access	Private
+*/
+const deleteProject = asyncHandler(async (req, res, next) => {
+	const project = await Project.findByIdAndDelete(req.params.id);
 
-	} catch {
-		res.status(400).json({ success: false });
+	if (!project) {
+		return next(
+			new ErrorResponse(`Project with id ${req.params.id} not found.`, 404)
+		);
 	}
-}
 
-const updateProject = async (req, res) => {
-	try {
-		const project = await Project.findByIdAndUpdate(req.params.id, req.body, {
-			new: true,
-			runValidators: true
-		});
+	res.status(200).json({
+		success: true,
+		data: {}
+	});
+});
 
-		if (!project) return res.status(400).json({ success: false });
-
-		res.status(200).json({
-			success: true,
-			data: project
-		});
-
-	} catch {
-		res.status(400).json({ success: false });
-	}
-}
-
-const deleteProject = async (req, res) => {
-	try {
-		const project = await Project.findByIdAndDelete(req.params.id);
-
-		res.status(200).json({
-			success: true,
-			data: {}
-		});
-
-	} catch {
-		res.status(400).json({ success: false });
-	}
-}
-
+// Export controllers
 export {
 	getProjects,
 	getProject,

@@ -46,4 +46,12 @@ const ProjectSchema = new mongoose.Schema({
 	}
 });
 
+
+// When users are added
+// ProjectSchema.pre("save", function() {
+// 	this.admins.push( this.creator );
+// 	this.members.push( this.creator );
+// 	next();
+// });
+
 export default mongoose.model("Project", ProjectSchema);

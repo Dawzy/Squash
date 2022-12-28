@@ -3,6 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import connectDB from "./db/db.js";
+import errorHandler from "./middleware/error.js";
 
 // Load routers
 import authRouter from "./routes/authRoutes.js";
@@ -28,6 +29,9 @@ app.use(express.json());
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/projects", projectRouter);
 app.use("/api/v1/bugs", bugRouter);
+
+// More middleware
+app.use(errorHandler);
 
 // Entry
 const server = app.listen(
