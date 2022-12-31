@@ -10,10 +10,10 @@ import {
 const router = express.Router();
 
 // Bug-specific routes
-router.get("/", getBugs);
-router.get("/:id", getBug);
-router.post("/", trackBug);
-router.patch("/:id", updateBug);
-router.delete("/:id", deleteBug);
+router.get("/:projectId/", getBugs);
+router.get("/:projectId/:bugId", getBug);
+router.post("/:projectId/", trackBug);
+router.patch("/:projectId/:bugId", updateBug);
+router.delete("/:projectId/:bugId", deleteBug);
 
 export default router;
