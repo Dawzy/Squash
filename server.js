@@ -8,7 +8,6 @@ import errorHandler from "./middleware/error.js";
 // Load routers
 import authRouter from "./routes/authRoutes.js";
 import projectRouter from "./routes/projectRoutes.js";
-import bugRouter from "./routes/bugRoutes.js";
 
 // Environment variables
 dotenv.config();
@@ -28,7 +27,6 @@ app.use(express.json());
 // Mount routers
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/projects", projectRouter);
-app.use("/api/v1/bugs", bugRouter);
 
 // More middleware
 app.use(errorHandler);

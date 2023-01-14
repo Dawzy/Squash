@@ -7,13 +7,18 @@ import {
 	deleteProject
 } from "../controllers/projectController.js";
 
+import bugRouter from "./bugRoutes.js";
+
 const router = express.Router();
+
+// Re-route to bug specific routes
+router.use("/:projectId/bugs", bugRouter);
 
 // Project-specific routes
 router.get("/", getProjects);
-router.get("/:id", getProject);
+router.get("/:projectId", getProject);
 router.post("/", createProject);
-router.patch("/:id", updateProject);
-router.delete("/:id", deleteProject);
+router.patch("/:projectId", updateProject); // Ignores bug changes
+router.delete("/:projectId", deleteProject);
 
 export default router;

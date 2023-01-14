@@ -7,13 +7,13 @@ import {
 	deleteBug
 } from "../controllers/bugController.js";
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 // Bug-specific routes
-router.get("/:projectId/", getBugs);
-router.get("/:projectId/:bugId", getBug);
-router.post("/:projectId/", trackBug);
-router.patch("/:projectId/:bugId", updateBug);
-router.delete("/:projectId/:bugId", deleteBug);
+router.get("/", getBugs);
+router.get("/:bugId", getBug);
+router.post("/", trackBug);
+router.patch("/:bugId", updateBug);
+router.delete("/:bugId", deleteBug);
 
 export default router;
